@@ -1,0 +1,52 @@
+version: "3.4"
+
+networks:
+  fleet:
+
+services:
+  fleet_app:
+    image: fleet_app
+    container_name: fleet_app
+    ports:
+     - "4000:4000"
+    command: "php artisan serve --host=0.0.0.0 --port=4000"
+    restart: "always"
+    volumes:
+    - "./:/usr/src/app"
+    working_dir: /usr/src/app
+    stdin_open: true
+    tty: true
+    networks:
+      - fleet
+
+  fleet_db_mysql:
+    image: mysql:5.7
+    container_name: fleet_db_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: fleet_management_system
+    ports:
+      - "4002:3306"
+    networks:
+      - fleet
+    restart: "unless-stopped"
+    volumes:
+      - ./fleet_db_mysql/:/var/lib/mysql
+      - ./databases:/docker-entrypoint-initdb.d
+
+
+  fleet_phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: fleet_phpmyadmin
+    restart: "unless-stopped"
+    depends_on:
+      - fleet_db_mysql
+    ports:
+      - "4005:80"
+    environment:
+      PMA_HOST: fleet_db_mysql
+      MYSQL_ROOT_PASSWORD: secret
+    networks:
+      - fleet
+
+
