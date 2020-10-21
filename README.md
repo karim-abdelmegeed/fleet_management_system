@@ -1,6 +1,6 @@
 <h1 style="text-align: center">Fleet System </h1>
 
-#Installation guide
+## Installation guide
 
 Just run build script in the project directory.
 
@@ -11,7 +11,7 @@ The App runs on Localhost port 4000 on Container named fleet_app
 
 PhpMyAdmin run on localhost port 4005 
 
-#testing App
+## testing App
 
 You can log in with these credentials:
 
