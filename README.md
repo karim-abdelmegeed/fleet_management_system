@@ -11,7 +11,7 @@ The App runs on Localhost port 4000 on Container named fleet_app
 
 PhpMyAdmin run on localhost port 4005 
 
-## testing App
+## Testing App
 
 You can log in with these credentials:
 
