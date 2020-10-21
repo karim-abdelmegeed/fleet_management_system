@@ -2,10 +2,21 @@
 
 namespace App\Http\Requests;
 
+use App\Exceptions\CustomValidationException;
+use App\Helper\ResponseApi;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AvailableSeatsRequest extends FormRequest
 {
+    public $responseApi;
+
+    public function __construct(ResponseApi $responseApi, array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
+    {
+        $this->responseApi = $responseApi;
+        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,8 +35,18 @@ class AvailableSeatsRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_station'=>'required|exists:stations,id',
-            'end_station'  =>'required|exists:stations,id'
+            'trip_id' => 'required|exists:trips,id',
+            'start_station_id' => 'required|exists:stations,id',
+            'end_station_id' => 'required|exists:stations,id'
         ];
+    }
+
+    /**
+     * @param Validator $validator
+     * @throws CustomValidationException
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new CustomValidationException($validator->errors(), $this->responseApi);
     }
 }

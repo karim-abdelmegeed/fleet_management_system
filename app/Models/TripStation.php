@@ -5,12 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Station extends Model
+class TripStation extends Model
 {
     use HasFactory;
 
-    public function trips()
-    {
-        return $this->belongsToMany(Station::class);
-    }
+    protected $table = 'trip_station';
 }

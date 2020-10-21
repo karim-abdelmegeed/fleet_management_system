@@ -13,17 +13,7 @@ class CreateReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reservations', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('start_station_id')->nullable();
-            $table->unsignedBigInteger('end_station_id')->nullable();
-            $table->dateTime('reserved_at')->nullable();
-            $table->foreign('user_id')->on('users')->references('id');
-            $table->foreign('start_station_id')->on('stations')->references('id');
-            $table->foreign('end_station_id')->on('stations')->references('id');
-            $table->timestamps();
-        });
+
     }
 
     /**
