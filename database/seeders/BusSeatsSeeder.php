@@ -24,10 +24,5 @@ class BusSeatsSeeder extends Seeder
             array_push($bus_seats, ['bus_id' => $bus_id, 'seat_number' => '#' . $i]);
         }
         BusSeat::insert($bus_seats);
-//        $bus_seat->user_id=User::first()->id;
-//        $bus_seat->start_station_id=Station::first()->id;
-//        $bus_seat->end_station_id=Station::latest()->first()->id;
-//        $bus_seat->reserved_at=Carbon::now();
-
     }
 }

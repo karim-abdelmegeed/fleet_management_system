@@ -2,10 +2,22 @@
 
 namespace App\Exceptions;
 
+use App\Helper\ResponseApi;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
+
+    private $responseApi;
+
+    public function __construct(ResponseApi $responseApi, Container $container)
+    {
+        $this->responseApi = $responseApi;
+        parent::__construct($container);
+    }
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -33,5 +45,14 @@ class Handler extends ExceptionHandler
     public function register()
     {
         //
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['status' => false, 'message' => 'Unauthenticated to perform this Action'], 401);
+        }
+
+        return redirect()->guest('login');
     }
 }
